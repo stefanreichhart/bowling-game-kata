@@ -38,16 +38,27 @@ public class Game {
 
     public int score() {
         int score = 0;
-        for (int i=0; i<Math.min(10,frames.size()); i++) {
-            Frame currentFrame = frames.get(i);
-            score += currentFrame.score();
-            if (currentFrame.isStrike()) {
-                score += frames.get(i+1).score();
-            } else if (currentFrame.isSpare()) {
-                score += frames.get(i+1).scoreOfFirstRoll();
-            }
+        for (int currentFrameIndex = 0; currentFrameIndex < Math.min(10, frames.size()); currentFrameIndex++) {
+            score += getScore(currentFrameIndex);
         }
         return score;
+    }
+
+    private int getScore(int currentFrameIndex) {
+        final Frame currentFrame = frames.get(currentFrameIndex);
+        return currentFrame.score() + getBonusScore(currentFrameIndex, currentFrame);
+    }
+
+    private int getBonusScore(int currentFrameIndex, Frame currentFrame) {
+        if (currentFrame.isStrike()) {
+            final Frame nextFrame = frames.get(currentFrameIndex + 1);
+            return nextFrame.score();
+        } else if (currentFrame.isSpare()) {
+            final Frame nextFrame = frames.get(currentFrameIndex + 1);
+            return nextFrame.scoreOfFirstRoll();
+        } else {
+            return 0;
+        }
     }
 
 }
