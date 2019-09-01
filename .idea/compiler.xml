@@ -20,8 +20,8 @@
         <module name="bowling-kata" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.8">
-      <module name="bowling-kata" target="1.5" />
+    <bytecodeTargetLevel target="11">
+      <module name="bowling-kata" target="11" />
     </bytecodeTargetLevel>
   </component>
 </project>
