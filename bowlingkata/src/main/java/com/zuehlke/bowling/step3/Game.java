@@ -5,6 +5,7 @@ import java.util.List;
 
 public class Game {
 
+    // TODO jumped over List<Integer> ! :(
     private List<List<Integer>> frames;
     private List<Integer> currentFrame;
 
