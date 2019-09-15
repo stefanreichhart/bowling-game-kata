@@ -48,8 +48,8 @@ Kannst du mal ein paar Beispiele machen ?
 PO:
 Beispiel 1: Alle Würfe 0 --> 0 Punkte
 Beispiel 2: Alle Würfe 1 --> 20 Punkte
-Beispiel 3: Alle Würfe 10 --> 300 Punkte (=10*30)
-Beispiel 4: Alle Würfe 5 --> 150 Punkte (=10*15)
+Beispiel 3: Alle Würfe 10 --> 300 Punkte (=10 * 30)
+Beispiel 4: Alle Würfe 5 --> 150 Punkte (=10 * 15)
 Beispiel 5: Würfe (5,5) (3,0) und dann 16 x (0,0) --> 16 Punkte (Spare!)
 
 Entwickler 1 & 2:
@@ -132,12 +132,12 @@ ML: [step3/Game](src/main/java/com/zuehlke/bowling/step3/Game.java)
 Entwickler 1:
 Jetzt ist alles sauber. Bisher kann unser Spiel aber noch nicht besonders viel. 
 Versuchen wir als nächstes mal den Strike+Bonus zu implementieren.
-ML: [step4/GameTest](src/test/java/com/zuehlke/bowling/step3/GameTest.java)
 Habe schon eine Idee wie wir das machen können. Ich implementiere das kurz mal während du in der Kaffepause bist.
+ML: [step4/GameTest](src/test/java/com/zuehlke/bowling/step3/GameTest.java)
 Copy/paste der ML [step4/Game](src/main/java/com/zuehlke/bowling/step3/Game.java).
 
 Entwickler 2:
-Ist das dein Erst? Du jonglierst hier mit Indexen und Listen herum ? Lass uns mal ein sauberes Objekt-Orientiertes Design machen.
+Ist das dein erst? Du jonglierst hier mit Indexen und Listen herum ? Lass uns mal ein sauberes Objekt-Orientiertes Design diskutieren.
 
 <Design Diskussion>
 
@@ -145,42 +145,44 @@ Menti: Für welche Lösung würdet ihr euch entscheiden?
 
 1. Weiterfahren mit Indexen.
 
-2. Frames mit Hilfe `List<Int>` modellieren. Wäre am schnellsten. Haben wir schon fast. Einfach und schnell
+2. Frames mit Hilfe `List<List<Int>>` modellieren. Wäre am schnellsten. Haben wir schon fast. Einfach und schnell
 
 3. echtes `Frame` modellieren
 
 Entwickler 1:
 Dann lass uns nun die interne Implementation ändern um das neue pragmatische Design (2) umzusetzen. 
 - ersetzte `rolls` durch eine Liste von Listen
-ML [step5/Game](src/main/java/com/zuehlke/bowling/step5/Game.java).
-ML [step5/GameTest](src/test/java/com/zuehlke/bowling/step5/Game.java).
+ML: [step5/Game](src/main/java/com/zuehlke/bowling/step5/Game.java).
+ML: [step5/GameTest](src/test/java/com/zuehlke/bowling/step5/GameTest.java).
 
 <ein Feature nach dem anderen>
 
 Entwickler 2:
 Alle Tests sind grün. Unser Game kann nun mit normalen Frames und Strikes umgehen. 
 Jetzt fehlen uns noch die Spares. Lass uns dazu wieder zuerst einen Test implementieren.
-ML [step6/GameTest](src/test/java/com/zuehlke/bowling/step6/GamTeste.java).
+ML: [step6/GameTest](src/test/java/com/zuehlke/bowling/step6/GameTest.java).
 Und jetzt noch die Implementation.
-ML [step6/Game](src/main/java/com/zuehlke/bowling/step6/Game.java).
+ML: [step6/Game](src/main/java/com/zuehlke/bowling/step6/Game.java).
 
 <Test-Qualität, Test-Data Qualität>
 
 Entwickler 1:
-Ist dir aufgefallen dass unsere Tests nur Schönwetter-Fälle representieren? 
+Ist dir aufgefallen dass unsere Tests nur Schönwetter-Fälle repräsentieren? 
 Die Spielverläufe sind zudem sehr unrealistisch. Lass uns noch ein paar realistische Test-Cases umsetzen.
 - implementiere `mixedRolls()` als eine Mischung aus Spares und Strikes
 - implementiere `mixedRolls_realGame()` als eine Mischung aus Spares und Strikes
-ML [step6/GameTest](src/test/java/com/zuehlke/bowling/step6/GamTeste.java).
+ML: [step6/GameTest](src/test/java/com/zuehlke/bowling/step6/GameTest.java).
 
 <Änderungen an der Architektur mitten im Projekt>
 
 Entwickler 2:
-Ich glaube wir hätten uns für das andere Design/architektur entscheiden sollen. Die Interne Representation durch Listen in Listen ist nicht wirklich Objekt-Orientiert. 
-Der Code ist nicht lesbar und das Spiel wird nicht gut durch den Code dokumentiert. Man braucht viel Insider-Wissen um das zu verstehen.
+Ich glaube wir hätten uns für das andere Design/Architektur entscheiden sollen. 
+Die Interne Representation durch Listen in Listen ist nicht wirklich Objekt-Orientiert. 
+Der Code ist nicht lesbar und das Spiel wird nicht gut durch den Code dokumentiert. 
+Man braucht viel Insider-Wissen um das zu verstehen.
 Lass uns das Umbauen. Es ist noch nicht zu spät.
 - implementiere `Frame`. Verwende so viele Refactoring von IntelliJ wie nur möglich
-ML [step7/Game](src/main/java/com/zuehlke/bowling/step7/Game.java).
+ML: [step7/Game](src/main/java/com/zuehlke/bowling/step7/Game.java).
 
 <Änderungen in der Implementation ziehen auch Änderungen in den Tests nach>
 
@@ -189,17 +191,19 @@ Jetzt sollten wir aber auch die Tests anpassen und diese von rolls auf frames um
 
 Entwickler 2:
 Sehr gute Idee.
-- implementiere 2 rolls als einen methoden-aufruf
-- implementiere strikes und spares als separaten methoden-aufruf
-ML [step7/GameTest](src/test/java/com/zuehlke/bowling/step7/GameTest.java).
+- implementiere `roll(scoreRoll1, scoreRoll2)` als einen methoden-aufruf
+- implementiere `strike()` und `spare()` als separaten methoden-aufruf
+ML: [step7/GameTest](src/test/java/com/zuehlke/bowling/step7/GameTest.java).
 Schau wie gut leserlich unsere Tests sind. Weitere Tests lassen sich nun ganz einfach implementieren.
 
 <Clean Code, Best Practice>
 
 Entwickler 2:
 Wir sollten noch weiter gehen und all die Bedingungen und Konstanten in lesbare Form bringen ... bis der Code self-documenting wird
-- implementiere utils wie `isStrike`, `isSpare`, `isComplete` 
-ML [step8/Game](src/main/java/com/zuehlke/bowling/step8/Game.java).
+- implementiere utils wie `isStrike()`, `isSpare()`, `isComplete()` 
+- ersetzte `rollMultipleTimes()` durch `repeat()`
+ML: [step8/Game](src/main/java/com/zuehlke/bowling/step8/Game.java).
+ML: [step8/Game](src/test/java/com/zuehlke/bowling/step8/GameTest.java).
 
 Entwickler 2:
 Schon viel besser. Aber die Logik zur Berechnung der Punkte ist noch immer auf `Game` und `Frame` verteilt - nicht sauber.
@@ -213,9 +217,9 @@ Leute, bitte vergoldet hier nichts. Ich hab das Spiel gerade getestet. Es funkti
 Entwickler 1:
 Wir vergolden nichts. Wir müssen noch ein paar notwendige Refactorings machen. Wenn wir die jetzt nicht machen, wird die weitere Entwicklung sehr aufwendig und teuer. Besser jetzt als später.
 - schiebe die gesamte Punke-Logik nach `Frame`
-- implementiere `nextFrame``als State in Frame (Punkte-Berechnung hängt von den folgeFrames ab)
-ML [step9/Game](src/main/java/com/zuehlke/bowling/step8/Game.java).
-ML [step9/Game](src/test/java/com/zuehlke/bowling/step8/Game.java).
+- implementiere `nextFrame` als State in Frame (weil Punkte-Berechnung hängt von den Folge-Frames ab)
+ML: [step9/Game](src/main/java/com/zuehlke/bowling/step8/Game.java).
+ML: [step9/Game](src/test/java/com/zuehlke/bowling/step8/GameTest.java).
 
 Entwickler 2:
 Jetzt ist alles sauber getrennt. ... Wobei ich hätte da schon noch einige Ideen was wir besser machen könnten.
@@ -224,72 +228,3 @@ Jetzt ist alles sauber getrennt. ... Wobei ich hätte da schon noch einige Ideen
 
 Entwickler 1:
 Ja ich auch. Aber ich denke wir haben eine gute/pragmatische Lösung gefunden.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Step init
-- create testcase with score()
-- empty implementation
-
-# Step 0 > 1
-- implement first simple testcases
-    - always 0 pins
-    - always 1 pin
-- implement simple scoring logic
-    
-# Step 1 > 2
-- already some code duplication in testcases
-- cleanup tests
-    - remove copied for-loops
-
-# Step 2 > 3
-- add testcase: all strikes
-    - implementation fails / implement strike-scoring
-
-# Step 3 > 4
-- add testcase: all spares
-    - implementation fails / implement spare-scoring
-- notice: all very "artificial" testcases
-    - add 2 more testcases (with lots of comments for understanding)
-- complete until tests are green
-
-# Step 4 > 5
-- notice: very dirty testcases
-    - refactor/cleanup testcases
-    - strike(), spare(), roll()
-
-# Step 5 > 6
-- notice: very dirty internal logic, no encapsulation, behaviour is spread over classes
-    - refactor ArrayList<Integer> to class Frame
-        - by moving stuff around
-        - intellij refacts only
-        - no new logic
-- notice: testcases are still roll-based, instead of frame-based
-    - refactor/cleanup testcases
-    - timesRepeat()
-    
-# Step 6 > 7
-- notice: better, but still some behaviour is spread over classes (frames/frame)
-    - refactor Frame to linked Frames 
-        - logic can now be fully encapulated into Frame
-    - refactor internal behaviour of game
-
-# Step 7
-- notice: encapsulation OK, responsibilities OK, finished ?
-- one possible solution
-- everything more would be "Vergoldung"
