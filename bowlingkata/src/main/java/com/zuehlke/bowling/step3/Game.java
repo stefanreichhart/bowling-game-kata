@@ -2,55 +2,33 @@ package com.zuehlke.bowling.step3;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Game {
 
-    // TODO jumped over List<Integer> ! :(
-    private List<List<Integer>> frames;
-    private List<Integer> currentFrame;
-
-    public Game() {
-        frames = new ArrayList<>();
-        currentFrame = new ArrayList<>();
-        frames.add(currentFrame);
-    }
+    private List<Integer> rolls = new ArrayList<>();
 
     public int score() {
         int score = 0;
-        for (int i = 0; i < Math.min(frames.size(), 10); i++) {
-            List<Integer> frame = frames.get(i);
-            for (int j = 0; j < frame.size(); j++) {
-                Integer scoreAtRoll = frame.get(j);
-                score += scoreAtRoll;
-                if (scoreAtRoll == 10) {
-                    score += getScoreOfNext2Rolls(i);
-                }
+        int currentRoll = 0;
+        int currentFrame = 0;
+        while (currentFrame < 10 && !rolls.isEmpty()) {
+            int frameScore = rolls.get(currentRoll);
+            if (frameScore == 10) {
+                frameScore += rolls.get(currentRoll+1) + rolls.get(currentRoll+2);
+                currentFrame++;
+            } else {
+                currentFrame += currentRoll % 2;
             }
-        }
-        return score;
-    }
-
-    private int getScoreOfNext2Rolls(int i) {
-        int score = 0;
-        List<Integer> nextFrame = frames.get(i+1);
-        if (nextFrame.size() == 2) {
-            score += nextFrame.get(0);
-            score += nextFrame.get(1);
-        } else if (nextFrame.size() == 1) {
-            score += nextFrame.get(0);
-            score += frames.get(i+2).get(0);
-        } else {
-            throw new IllegalStateException();
+            score += frameScore;
+            currentRoll++;
         }
         return score;
     }
 
     public void roll(int numberOfPins) {
-        currentFrame.add(numberOfPins);
-        if (currentFrame.size() >= 2 || numberOfPins == 10) {
-            currentFrame = new ArrayList<>();
-            frames.add(currentFrame);
-        }
+        Objects.requireNonNull(numberOfPins);
+        rolls.add(numberOfPins);
     }
 
 }

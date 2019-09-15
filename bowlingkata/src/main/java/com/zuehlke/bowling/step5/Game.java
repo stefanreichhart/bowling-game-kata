@@ -5,12 +5,12 @@ import java.util.List;
 
 public class Game {
 
-    private List<Frame> frames;
-    private Frame currentFrame;
+    private List<List<Integer>> frames;
+    private List<Integer> currentFrame;
 
     public Game() {
         frames = new ArrayList<>();
-        currentFrame = new Frame();
+        currentFrame = new ArrayList<>();
         frames.add(currentFrame);
     }
 
@@ -18,14 +18,14 @@ public class Game {
         int score = 0;
         for (int i = 0; i < Math.min(frames.size(), 10); i++) {
             int frameScore = 0;
-            Frame frame = frames.get(i);
+            List<Integer> frame = frames.get(i);
             for (int j = 0; j < frame.size(); j++) {
-                Integer scoreAtRoll = frame.getScoreAtRoll(j);
+                Integer scoreAtRoll = frame.get(j);
                 frameScore += scoreAtRoll;
                 if (scoreAtRoll == 10) {
                     frameScore += getScoreOfNext2Rolls(i);
                 }
-                if (j == 1 && frameScore == 10) {
+                if (j==1 && frameScore == 10) {
                     frameScore += getScoreOfNextRoll(i);
                 }
             }
@@ -35,18 +35,18 @@ public class Game {
     }
 
     private int getScoreOfNextRoll(int index) {
-        return frames.get(index + 1).getScoreAtRoll(0);
+        return frames.get(index+1).get(0);
     }
 
     private int getScoreOfNext2Rolls(int i) {
         int score = 0;
-        Frame nextFrame = frames.get(i + 1);
+        List<Integer> nextFrame = frames.get(i+1);
         if (nextFrame.size() == 2) {
-            score += nextFrame.getScoreAtRoll(0);
-            score += nextFrame.getScoreAtRoll(1);
+            score += nextFrame.get(0);
+            score += nextFrame.get(1);
         } else if (nextFrame.size() == 1) {
-            score += nextFrame.getScoreAtRoll(0);
-            score += frames.get(i + 2).getScoreAtRoll(0);
+            score += nextFrame.get(0);
+            score += frames.get(i+2).get(0);
         } else {
             throw new IllegalStateException();
         }
@@ -54,9 +54,9 @@ public class Game {
     }
 
     public void roll(int numberOfPins) {
-        currentFrame.roll(numberOfPins);
+        currentFrame.add(numberOfPins);
         if (currentFrame.size() >= 2 || numberOfPins == 10) {
-            currentFrame = new Frame();
+            currentFrame = new ArrayList<>();
             frames.add(currentFrame);
         }
     }

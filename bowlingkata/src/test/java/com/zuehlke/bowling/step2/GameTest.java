@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) Schweizerische Bundesbahnen SBB, 2019.
+ */
+
 package com.zuehlke.bowling.step2;
 
 import org.junit.jupiter.api.BeforeEach;
