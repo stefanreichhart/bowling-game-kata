@@ -19,18 +19,6 @@ public class Frame {
         rolls.add(numberOfPins);
     }
 
-    private int getScore() {
-        int score = 0;
-        for (int i = 0; i < rolls.size(); i++) {
-            score += rolls.get(i);
-        }
-        return score;
-    }
-
-    private int getScoreForSpareBonus() {
-        return rolls.get(0);
-    }
-
     public boolean isComplete() {
         return isStrike() || isSpare() || rolls.size() == MAX_ROLLS;
     }
@@ -40,21 +28,42 @@ public class Frame {
     }
 
     private boolean isSpare() {
-        return rolls.size() == MAX_ROLLS && getScore() == MAX_SCORE;
+        return rolls.size() == MAX_ROLLS && getScoreOfRolls() == MAX_SCORE;
     }
 
     public int getScoreOfFrame() {
-        int score = getScore();
+        int score = getScoreOfRolls();
         if (isStrike())  {
-            score += nextFrame.getScore();
-            if (nextFrame.isStrike()) {
-                score += nextFrame.nextFrame.getScoreForSpareBonus();
-            }
+            score += getScoreOfStrikeBonus();
         }
         if (isSpare()) {
-            score += nextFrame.getScoreForSpareBonus();
+            score += getScoreOfSpareBonus();
         }
         return score;
+    }
+
+    private int getScoreOfRolls() {
+        int score = 0;
+        for (int i = 0; i < rolls.size(); i++) {
+            score += rolls.get(i);
+        }
+        return score;
+    }
+
+    private int getScoreOfFirstRoll() {
+        return rolls.get(0);
+    }
+
+    private int getScoreOfStrikeBonus() {
+        int score = nextFrame.getScoreOfRolls();
+        if (nextFrame.isStrike()) {
+            score += nextFrame.nextFrame.getScoreOfFirstRoll();
+        }
+        return score;
+    }
+
+    private int getScoreOfSpareBonus() {
+        return nextFrame.getScoreOfFirstRoll();
     }
 
 }

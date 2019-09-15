@@ -20,18 +20,27 @@ public class Game {
             final Frame frame = frames.get(i);
             score += frame.getScore();
             if (frame.isStrike())  {
-                final Frame nextFrame = frames.get(i + 1);
-                score += nextFrame.getScore();
-                if (nextFrame.isStrike()) {
-                    score += frames.get(i+2).getScoreForSpareBonus();
-                }
+                score += getScoreForStrikeBonus(i);
             }
             if (frame.isSpare()) {
-                final Frame nextFrame = frames.get(i + 1);
-                score += nextFrame.getScoreForSpareBonus();
+                score += getScoreOfSpareBonus(i);
             }
         }
         return score;
+    }
+
+    private int getScoreForStrikeBonus(int index) {
+        final Frame nextFrame = frames.get(index + 1);
+        int score = nextFrame.getScore();
+        if (nextFrame.isStrike()) {
+            score += frames.get(index+2).getScoreForSpareBonus();
+        }
+        return score;
+    }
+
+    private int getScoreOfSpareBonus(int index) {
+        final Frame nextFrame = frames.get(index + 1);
+        return nextFrame.getScoreForSpareBonus();
     }
 
     public void roll(int numberOfPins) {
