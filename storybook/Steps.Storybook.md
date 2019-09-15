@@ -228,3 +228,6 @@ Jetzt ist alles sauber getrennt. ... Wobei ich hätte da schon noch einige Ideen
 
 Entwickler 1:
 Ja ich auch. Aber ich denke wir haben eine gute/pragmatische Lösung gefunden.
+
+
+*The End*
