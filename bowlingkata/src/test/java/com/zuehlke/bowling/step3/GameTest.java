@@ -31,14 +31,6 @@ public class GameTest {
         assertEquals(20, game.score()); // 20 = 10 * (1 + 1)
     }
 
-    @Test
-    public void allRolls_allStrikes() {
-        rollMultipleTimes(10, 10);
-        game.roll(10);
-        game.roll(10);
-        assertEquals(300, game.score());  // 300 = 10 * (10 + 10 + 10)
-    }
-
     private void rollMultipleTimes(int rolls, int numberOfPins) {
         for (int i = 0; i < rolls; i++) {
             game.roll(numberOfPins);

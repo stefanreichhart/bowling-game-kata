@@ -17,25 +17,16 @@ public class Game {
     public int score() {
         int score = 0;
         for (int i = 0; i < Math.min(frames.size(), 10); i++) {
-            int frameScore = 0;
             List<Integer> frame = frames.get(i);
             for (int j = 0; j < frame.size(); j++) {
                 Integer scoreAtRoll = frame.get(j);
-                frameScore += scoreAtRoll;
+                score += scoreAtRoll;
                 if (scoreAtRoll == 10) {
-                    frameScore += getScoreOfNext2Rolls(i);
-                }
-                if (j==1 && frameScore == 10) {
-                    frameScore += getScoreOfNextRoll(i);
+                    score += getScoreOfNext2Rolls(i);
                 }
             }
-            score += frameScore;
         }
         return score;
-    }
-
-    private int getScoreOfNextRoll(int index) {
-        return frames.get(index+1).get(0);
     }
 
     private int getScoreOfNext2Rolls(int i) {
