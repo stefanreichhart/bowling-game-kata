@@ -9,12 +9,6 @@ public class GameTest {
 
     private Game game;
 
-    private void rollMultipleTimes(int rolls, int numberOfPins) {
-        for (int i = 0; i < rolls; i++) {
-            game.roll(numberOfPins);
-        }
-    }
-
     @BeforeEach
     public void createGame() {
         game = new Game();
@@ -76,6 +70,12 @@ public class GameTest {
         strike(); // frame 10, finish
         roll(9, 1);
         assertEquals(146, game.score()); // (10 + 4 + 4) + (4 + 4) + (7 + 1) + (2 + 7) + (3 + 7 + 10) + (10 + 10 + 10) + (10 + 10 + 1) + (10 + 1 + 0) + (1 + 0) + (10 + 9 + 1)
+    }
+
+    private void rollMultipleTimes(int rolls, int numberOfPins) {
+        for (int i = 0; i < rolls; i++) {
+            game.roll(numberOfPins);
+        }
     }
 
     public void strike() {
