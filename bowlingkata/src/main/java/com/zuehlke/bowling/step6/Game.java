@@ -16,17 +16,17 @@ public class Game {
 
     public int score() {
         int score = 0;
-        for (int i = 0; i < Math.min(frames.size(), 10); i++) {
+        for (int frameIndex = 0; frameIndex < Math.min(frames.size(), 10); frameIndex++) {
             int frameScore = 0;
-            List<Integer> frame = frames.get(i);
-            for (int j = 0; j < frame.size(); j++) {
-                Integer scoreAtRoll = frame.get(j);
+            List<Integer> frame = frames.get(frameIndex);
+            for (int rollIndex = 0; rollIndex < frame.size(); rollIndex++) {
+                Integer scoreAtRoll = frame.get(rollIndex);
                 frameScore += scoreAtRoll;
-                if (scoreAtRoll == 10) {
-                    frameScore += getScoreOfNext2Rolls(i);
+                if (isStrike(scoreAtRoll)) {
+                    frameScore += getScoreOfStrikeBonus(frameIndex);
                 }
-                if (j==1 && frameScore == 10) {
-                    frameScore += getScoreOfNextRoll(i);
+                if (isSpare(frameScore, rollIndex)) {
+                    frameScore += getScoreOfSpareBonus(frameIndex);
                 }
             }
             score += frameScore;
@@ -34,11 +34,19 @@ public class Game {
         return score;
     }
 
-    private int getScoreOfNextRoll(int index) {
+    private boolean isSpare(int frameScore, int numberOfRollsInFrame) {
+        return numberOfRollsInFrame == 1 && frameScore == 10;
+    }
+
+    private boolean isStrike(Integer scoreAtRoll) {
+        return scoreAtRoll == 10;
+    }
+
+    private int getScoreOfSpareBonus(int index) {
         return frames.get(index+1).get(0);
     }
 
-    private int getScoreOfNext2Rolls(int i) {
+    private int getScoreOfStrikeBonus(int i) {
         int score = 0;
         List<Integer> nextFrame = frames.get(i+1);
         if (nextFrame.size() == 2) {
@@ -48,14 +56,14 @@ public class Game {
             score += nextFrame.get(0);
             score += frames.get(i+2).get(0);
         } else {
-            throw new IllegalStateException();
+            throw new IllegalStateException("This is not a Strike");
         }
         return score;
     }
 
     public void roll(int numberOfPins) {
         currentFrame.add(numberOfPins);
-        if (currentFrame.size() >= 2 || numberOfPins == 10) {
+        if (currentFrame.size() >= 2 || isStrike(numberOfPins)) {
             currentFrame = new ArrayList<>();
             frames.add(currentFrame);
         }

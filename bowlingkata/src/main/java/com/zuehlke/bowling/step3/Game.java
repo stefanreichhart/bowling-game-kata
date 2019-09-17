@@ -1,11 +1,10 @@
 package com.zuehlke.bowling.step3;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class Game {
 
-    private ArrayList<Integer> rolls = new ArrayList<>();
+    private List<Integer> rolls = new ArrayList<>();
 
     public int score() {
         return rolls.stream()
@@ -14,7 +13,6 @@ public class Game {
     }
 
     public void roll(int numberOfPins) {
-        Objects.requireNonNull(numberOfPins);
         rolls.add(numberOfPins);
     }
 
