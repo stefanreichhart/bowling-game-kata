@@ -1,104 +1,29 @@
-# Bowling Kata
+# Bowling Cata Game
 
-Einführung: Wir möchten ein Einblick geben in den Entwickleralltag.
-Das Beispiel ist natürlich künstlich, so dass es in den Zeitrahmen passt,
-aber das Vorgehen, etc. ist so wie wir normalerweise arbeiten.
+## Ablauf
+| Min | Inhalt |
+| --- | --- |
+| 5 | - Zühlke vorstellen <br> - Uns selber vorstellen |
+| 2 | - Kurz Menti erklären; wird mehrfach verwendet; wir versuchen interaktiv zu sein <br> - MENTI: wer seid ihr ? was macht ihr ? |
+| 2 | - Überblick/Inhalt über die heutige Session |
+| **10** | --- |
+| 10 | - Projekt vorstellen <br> - Rollen vorstellen <br> - Game erklären <br> - MENTI: Beispiele <br> - MENTI: Quiz |
+| **20** | --- |
+| 15 | Step 0 - 4: TDD, Clean Code |
+| 15 | Step 5 - 8: Requirements, Design, Architecture, Team Work |
+| **50** | --- |
+| 10 | Abschluss <br> - MENTI: Fragen <br> - MENTI: Feedback |
+| **60** | --- |
 
-Zuerst möchten wir euch ein wenig kennenlernen: Menti-Umfrage - Wer macht was?
-
-Entwickler 1: 
-In der nächsten Story im Backlog geht es darum, einen Punkterechner für ein Bowlingspiel zu implementieren. 
-Wir sollen die Punkte für die einzelnen Würfe mitgeben können und am Schluss des Spiels den Gesamtpunktstand abfragen können.
-
-Entwickler 2:
-Ah, ja. Ich erinnere mich ans Refinement dieser Story.
-Das soll irgendwie so aussehen: [v0/Game](src/main/java/com/zuehlke/bowling/v0/Game.java)
-Hmm... ich weiss aber gerade nicht mehr genau, wie das mit den Punkten schon wieder ging.
-
-Entwickler 1:
-Bin auch nicht mehr ganz sicher, irgendwas mit Strikes und Spares und Bonuspunkten.
-Wir fragen doch noch einmal beim Productowner nach.
-
-Entwickler 2:
-Du, PO, kannst Du uns noch einmal die Bowling-Punkteregeln erklären?
-
-PO:
-*erklärt die Bowling-Punkteregeln*
-Wollen wir noch ein paar Beispiele durchgehen?
-(jeweils mit Menti im Hintergrund)
-Beispiel 1: Alle Würfe 0 --> 0 Punkte
-Beispiel 2: Alle Würfe 1 --> 20 Punkte
-Beispiel 3: Würfe 5, 5, 3, und dann 17 x 0 --> 16 Punkte (Spare!)
-Beispiel 3: Alle Würfe 10 --> xxx Punkte
-Beispiel 4: (Beispiel mit Spare)
-Beispiel 5: (Beispiel mit Strike)
-
-Alles klar?
-
-Entwickler 1 & 2:
-Alles klar! Wir gehen mal entwickeln.
-
-Entwickler 1:
-Ok, was machen wir als nächstes?
-
-Menti: Was als nächtes? A) Methode `roll` implementieren? B) Methode `score` implementieren?
-
-Entwickler 2:
-Hmm.. ich möchte eigentlich lieber test-driven vorgehen. Das bedeutet
-
-Entwickler 1:
-Ah, das ist eine gute Idee. Dann schreibe ich mal einen ersten Test.
-Nehmen wir doch das einfachste Beispiel von oben: 
-[v0/GameTest](src/test/java/com/zuehlke/bowling/v0/GameTest.java)
-
-Entwickler 2:
-Genau! Dieser Test schläg nun fehl.
-Machen wir doch einfach mal eine erste Implementation der Methode:
-[v1/Game](src/main/java/com/zuehlke/bowling/v1/Game.java)
-
-Entwickler 1:
-Ah, jetzt sieht es besser aus.
-Aber ist dieser Testfall nicht ein bisschen kompliziert?
-Sollten wir nicht einfach mal nach einem Wurf die Punkte abfragen?
-
-Entwickler 2:
-Ich bin gerade nicht sicher, was wir überhaupt zurückgeben sollen,
-wenn das Spiel noch nicht fertig ist?
-
-Menti: Was sollen wir zurückgeben, wenn das Spiel noch nicht fertig ist?
-A) Zwischenstand berechnen B) Exception werfen C)  Egal
-
-Entwickler 1:
-Ich glaube, wir fragen noch einmal den PO.
-
-PO:
-Diesen Fall müsst ihr nicht behandeln, die Rechner soll immer nur am Ende des Spiels die Gesamtpunktzahl berechnen.
-
-Entwickler 1:
-Ok, dann könnten wir ein weiteres Beispiel anschauen. 
-Was passiert, wenn wir in allen Würfen genau einen Punkt haben?
-[v1/GameTest](src/test/java/com/zuehlke/bowling/v1/GameTest.java)
-
-Entwickler 2:
-Ich glaube, wir müssen die Punkte zusammenzählen. Versuchen wir das mal.
-[v2/Game](src/main/java/com/zuehlke/bowling/v2/Game.java)
-Jetzt sieht es besser aus.
-
-Entwickler 1:
-Bevor wir die weitere Tests schreiben, sollten wir unsere Tests noch ein wenig aufräumen.
-Dort hat es noch viel duplizierten Code: [v3/GameTest](src/test/java/com/zuehlke/bowling/v3/GameTest.java)
-- `Game game` als Feld extrahieren
-- `this.game = new Game()` als neue Methode extrahieren, mit `@BeforeEach` annotieren
-- `for`-Schleife als Methode `rollTwentyTimes` extrahieren
-
-Entwickler 2:
-Versuchen wir jetzt das nächste Beispiel mit einem Spare: 5, 5, 3 und dann 17 x 0.
-Ah, ich glaube, zuerst müssen wir unsere ^rollTwentyTimes` Methode noch allgemeiner machen.
-- `rollMultipleTimes` extrahieren
-Jetzt können wir diesen Testfall implementieren: [v4/GameTest](src/test/java/com/zuehlke/bowling/v4/GameTest.java)
-
-Entwickler 1:
-Ja, diesen Fall haben wir noch nicht korrekt implementiert.
-Ich glaube, wir müssen unser Design ein wenig überdenken.
-
-*Design Diskussion*
+## Detail-Ablauf
+| Step | Inhalt |
+| --- | --- |
+| Step 0 | Problem: womit anfangen ? <br> - MENTI: score() oder roll() ? <br> - TDD vorstellen <br> - Testcase 1 implementieren |
+| Step 1 | Problem: bei abfrage score() ist das Spiel noch nicht fertig <br> - MENTI: was machen wir ? <br> - PO fragen, Requirements klären <br> - Implementation nach TDD <br> - Testcase (leeres spiel) + (alle 0) + (alle 1)  |
+| Step 2 | Ugly Test code => viel Duplication <br> - Refactoring der Tests <br> Testcode ist auch wichtig (viel wichtiger sogar -> Requirements/Specs) |
+| Step 3 | Responsibility driven design: Wer hat verantwortung für score ? score() oder roll() <br> - Design Diskussion <br> - Design anpassen <br> - Tests bleiben gleich |
+| Step 4 | Problem: Strike Berechnung: Wir müssen "Frame" kennen <br> - Strike -> nächste Frame bzw nächste 2 Rolls // Strike + Frame erkennen <br> - MENTI: Design; ANtowrten diskutieren; Pro/Contra <br> - Frame modellieren … möglichst mit copy/paste schaffen / sonst zu lange das dieser Schritt recht gross ist |
+| Step 5 | Problem: SPare programmieren: neues Feature <br> - wieder nach TDD |
+| Step 6 | Tests sind etwas dumm und unrealistisch; zudem noch roll() basiert <br> - Reale Testcases programmieren <br> - Erwähnen: Testcases sind Dokumentation + Spezifikation ! <br> - Testcases ans Frame anpassen |
+| Step 7 | MENTI: sind wir fertig ? <br> - Alternative refactorings diskutieren <br> - Pragmatismus in der IT ansprechen <-> keine Vergoldungen|
+| Step 8 | Abschluss: Musterlösung von LinkedList-model zeigen |
