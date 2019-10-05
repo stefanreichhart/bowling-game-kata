@@ -2,10 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/bowling-game-kata.iml" filepath="$PROJECT_DIR$/bowling-game-kata.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/bowling-game-kata.iml" filepath="$PROJECT_DIR$/.idea/bowling-game-kata.iml" />
       <module fileurl="file://$PROJECT_DIR$/bowlingkata/bowling-kata.iml" filepath="$PROJECT_DIR$/bowlingkata/bowling-kata.iml" />
-      <module fileurl="file://$PROJECT_DIR$//revealjs.iml" filepath="$PROJECT_DIR$//revealjs.iml" />
-      <module fileurl="file://$PROJECT_DIR$/storybook/storybook.iml" filepath="$PROJECT_DIR$/storybook/storybook.iml" />
     </modules>
   </component>
 </project>
