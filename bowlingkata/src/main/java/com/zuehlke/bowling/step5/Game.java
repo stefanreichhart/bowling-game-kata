@@ -5,52 +5,42 @@ import java.util.List;
 
 public class Game {
 
-    private List<List<Integer>> frames;
-    private List<Integer> currentFrame;
+    private static final int MAX_FRAMES = 10;
+
+    private List<Frame> frames;
+    private Frame currentFrame;
 
     public Game() {
         frames = new ArrayList<>();
-        currentFrame = new ArrayList<>();
+        currentFrame = new Frame();
         frames.add(currentFrame);
     }
 
     public int score() {
         int score = 0;
-        for (int roll = 0; roll < Math.min(frames.size(), 10); roll++) {
-            List<Integer> frame = frames.get(roll);
-            for (Integer scoreAtRoll : frame) {
-                score += scoreAtRoll;
-                if (isStrike(scoreAtRoll)) {
-                    score += getScoreForStrikeBonus(roll);
-                }
+        for (int i = 0; i < Math.min(frames.size(), MAX_FRAMES); i++) {
+            final Frame frame = frames.get(i);
+            score += frame.getScore();
+            if (frame.isStrike())  {
+                score += getScoreForStrikeBonus(i);
             }
         }
         return score;
     }
 
-    private boolean isStrike(Integer scoreAtRoll) {
-        return scoreAtRoll == 10;
-    }
-
-    private int getScoreForStrikeBonus(int roll) {
-        int score = 0;
-        List<Integer> nextFrame = frames.get(roll+1);
-        if (nextFrame.size() == 2) {
-            score += nextFrame.get(0);
-            score += nextFrame.get(1);
-        } else if (nextFrame.size() == 1) {
-            score += nextFrame.get(0);
-            score += frames.get(roll+2).get(0);
-        } else {
-            throw new IllegalStateException("This is not a Strike");
+    private int getScoreForStrikeBonus(int index) {
+        final Frame nextFrame = frames.get(index + 1);
+        int score = nextFrame.getScore();
+        if (nextFrame.isStrike()) {
+            score += frames.get(index + 2).getScoreOfFirstRoll();
         }
         return score;
     }
 
     public void roll(int numberOfPins) {
-        currentFrame.add(numberOfPins);
-        if (currentFrame.size() >= 2 || isStrike(numberOfPins)) {
-            currentFrame = new ArrayList<>();
+        currentFrame.roll(numberOfPins);
+        if (currentFrame.isComplete()) {
+            currentFrame = new Frame();
             frames.add(currentFrame);
         }
     }

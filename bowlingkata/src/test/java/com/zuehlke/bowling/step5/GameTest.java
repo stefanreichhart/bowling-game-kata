@@ -3,6 +3,7 @@ package com.zuehlke.bowling.step5;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GameTest {
@@ -11,7 +12,7 @@ public class GameTest {
 
     @BeforeEach
     public void createGame() {
-        game = new Game();
+        game = assertDoesNotThrow(() -> new Game());
     }
 
     @Test
@@ -32,10 +33,15 @@ public class GameTest {
     }
 
     @Test
+    public void allRolls_2PinEach() {
+        rollMultipleTimes(20, 2);
+        assertEquals(40, game.score()); // 40 = 10 * (2 + 2)
+    }
+
+    @Test
     public void allRolls_allStrikes() {
         rollMultipleTimes(10, 10);
-        game.roll(10);
-        game.roll(10);
+        rollMultipleTimes(2, 10); // bonus for last frame
         assertEquals(300, game.score());  // 300 = 10 * (10 + 10 + 10)
     }
 

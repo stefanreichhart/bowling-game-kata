@@ -1,4 +1,4 @@
-package com.zuehlke.bowling.step7;
+package com.zuehlke.bowling.step6;
 
 import java.util.ArrayList;
 import java.util.List;

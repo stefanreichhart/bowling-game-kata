@@ -1,44 +1,48 @@
-/*
- * Copyright (C) Schweizerische Bundesbahnen SBB, 2019.
- */
-
 package com.zuehlke.bowling.step2;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GameTest {
 
-    private Game game;
-
-    @BeforeEach
-    public void createGame() {
-        game = new Game();
+    @Test
+    public void createNewGame() {
+        assertDoesNotThrow(() -> new Game());
     }
 
     @Test
     public void scoreForNewGame() {
-        assertEquals(0, game.score()); // 0
+        Game game = new Game();
+        assertEquals(0, game.score());
     }
 
     @Test
     public void allRolls_0PinEach() {
-        rollMultipleTimes(20, 0);
+        Game game = new Game();
+        for (int i = 0; i < 20; i++) {
+            game.roll(0);
+        }
         assertEquals(0, game.score()); // 0 = 20 * (0 + 0)
     }
 
     @Test
     public void allRolls_1PinEach() {
-        rollMultipleTimes(20, 1);
+        Game game = new Game();
+        for (int i = 0; i < 20; i++) {
+            game.roll(1);
+        }
         assertEquals(20, game.score()); // 20 = 10 * (1 + 1)
     }
 
-    private void rollMultipleTimes(int rolls, int numberOfPins) {
-        for (int i = 0; i < rolls; i++) {
-            game.roll(numberOfPins);
+    @Test
+    public void allRolls_2PinEach() {
+        Game game = new Game();
+        for (int i = 0; i < 20; i++) {
+            game.roll(2);
         }
+        assertEquals(40, game.score()); // 40 = 10 * (2 + 2)
     }
 
 }

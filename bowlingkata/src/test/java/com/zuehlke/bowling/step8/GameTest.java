@@ -3,6 +3,7 @@ package com.zuehlke.bowling.step8;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class GameTest {
@@ -11,7 +12,7 @@ public class GameTest {
 
     @BeforeEach
     public void createGame() {
-        game = new Game();
+        game = assertDoesNotThrow(() -> new Game());
     }
 
     @Test
@@ -21,14 +22,20 @@ public class GameTest {
 
     @Test
     public void allRolls_0PinEach() {
-        repeat(10, () -> roll(0, 0));
+        repeat(10, () -> frame(0, 0));
         assertEquals(0, game.score()); // 0 = 10 * (0 + 0)
     }
 
     @Test
     public void allRolls_1PinEach() {
-        repeat(10, () -> roll(1, 1));
+        repeat(10, () -> frame(1, 1));
         assertEquals(20, game.score()); // 20 = 10 * (1 + 1)
+    }
+
+    @Test
+    public void allRolls_2PinEach() {
+        repeat(10, () -> frame(2, 2));
+        assertEquals(40, game.score()); // 40 = 10 * (2 + 2)
     }
 
     @Test
@@ -49,25 +56,25 @@ public class GameTest {
     @Test
     public void mixedRolls() {
         strike();
-        repeat(5, () -> roll(1, 1));
-        roll(4, 6);
-        repeat(3, () -> roll(2, 2));
+        repeat(5, () -> frame(1, 1));
+        frame(4, 6);
+        repeat(3, () -> frame(2, 2));
         assertEquals(46, game.score()); // (10 + 2) + (10 * 1) + (4 + 6 + 2) + (6 * 2)
     }
 
     @Test
     public void mixedRolls_realGame() {
         strike(); // frame 1
-        roll(4, 4);
-        roll(7, 1);
-        roll(2, 7);
+        frame(4, 4);
+        frame(7, 1);
+        frame(2, 7);
         spare(3); // frame 5
         strike();
         strike();
         strike();
-        roll(1, 0);
+        frame(1, 0);
         strike(); // frame 10, finish
-        roll(9, 1);
+        frame(9, 1);
         assertEquals(146, game.score()); // (10 + 4 + 4) + (4 + 4) + (7 + 1) + (2 + 7) + (3 + 7 + 10) + (10 + 10 + 10) + (10 + 10 + 1) + (10 + 1 + 0) + (1 + 0) + (10 + 9 + 1)
     }
 
@@ -82,10 +89,10 @@ public class GameTest {
     }
 
     private void spare(int roll1) {
-        roll(roll1, 10 - roll1);
+        frame(roll1, 10 - roll1);
     }
 
-    private void roll(int roll1, int roll2) {
+    private void frame(int roll1, int roll2) {
         game.roll(roll1);
         game.roll(roll2);
     }

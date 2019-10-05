@@ -1,4 +1,4 @@
-package com.zuehlke.bowling.step3;
+package com.zuehlke.bowling.step4;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

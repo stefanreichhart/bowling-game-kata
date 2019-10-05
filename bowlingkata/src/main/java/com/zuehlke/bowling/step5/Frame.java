@@ -1,4 +1,4 @@
-package com.zuehlke.bowling.step7;
+package com.zuehlke.bowling.step5;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,18 +23,14 @@ public class Frame {
     }
 
     public boolean isComplete() {
-        return isStrike() || isSpare() || rolls.size() == MAX_ROLLS;
+        return isStrike() || rolls.size() == MAX_ROLLS;
     }
 
     public boolean isStrike() {
-        return rolls.size() == 1 && getScoreOfFirstRoll() == MAX_SCORE;
+        return rolls.size() == 1 && rolls.get(0) == MAX_SCORE;
     }
 
-    public boolean isSpare() {
-        return rolls.size() == MAX_ROLLS && getScore() == MAX_SCORE;
-    }
-
-    public int getScoreOfFirstRoll() {
+    int getScoreOfFirstRoll() {
         return rolls.get(0);
     }
 
