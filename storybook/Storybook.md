@@ -23,7 +23,7 @@
 | Step 2 | Ugly Test code => viel Duplication <br> - Refactoring der Tests <br> Testcode ist auch wichtig (viel wichtiger sogar -> Requirements/Specs) |
 | Step 3 | Responsibility driven design: Wer hat verantwortung für score ? score() oder roll() <br> - Design Diskussion <br> - Design anpassen <br> - Tests bleiben gleich |
 | Step 4 | Problem: Strike Berechnung: Wir müssen "Frame" kennen <br> - Strike -> nächste Frame bzw nächste 2 Rolls // Strike + Frame erkennen <br> - MENTI: Design; ANtowrten diskutieren; Pro/Contra <br> - Frame modellieren … möglichst mit copy/paste schaffen / sonst zu lange das dieser Schritt recht gross ist |
-| Step 5 | Problem: SPare programmieren: neues Feature <br> - wieder nach TDD |
+| Step 5 | Problem: Spare programmieren: neues Feature <br> - wieder nach TDD |
 | Step 6 | Tests sind etwas dumm und unrealistisch; zudem noch roll() basiert <br> - Reale Testcases programmieren <br> - Erwähnen: Testcases sind Dokumentation + Spezifikation ! <br> - Testcases ans Frame anpassen |
 | Step 7 | MENTI: sind wir fertig ? <br> - Alternative refactorings diskutieren <br> - Pragmatismus in der IT ansprechen <-> keine Vergoldungen|
 | Step 8 | Abschluss: Musterlösung von LinkedList-model zeigen |
