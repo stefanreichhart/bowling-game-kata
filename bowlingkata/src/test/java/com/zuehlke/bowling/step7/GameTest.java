@@ -17,13 +17,13 @@ public class GameTest {
 
     @Test
     public void scoreForNewGame() {
-        assertEquals(0, game.score());
+        assertEquals(0, game.score()); // 0
     }
 
     @Test
     public void allRolls_0PinEach() {
         repeat(10, () -> frame(0, 0));
-        assertEquals(0, game.score()); // 0 = 10 * (0 + 0)
+        assertEquals(0, game.score()); // 0 = 20 * (0 + 0)
     }
 
     @Test
@@ -41,15 +41,15 @@ public class GameTest {
     @Test
     public void allRolls_allStrikes() {
         repeat(10, () -> strike());
-        strike();
-        strike();
+        strike(); // bonus for last frame
+        strike(); //
         assertEquals(300, game.score()); // 300 = 10 * (10 + 10 + 10)
     }
 
     @Test
     public void allRolls_allSpares() {
         repeat(10, () -> spare(5));
-        game.roll(5);
+        game.roll(5); // bonus for the last spare
         assertEquals(150, game.score()); // 150 = 10 * (5 + 5 + 5)
     }
 

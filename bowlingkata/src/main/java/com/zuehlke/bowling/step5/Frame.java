@@ -5,8 +5,8 @@ import java.util.List;
 
 public class Frame {
 
-    public static final int MAX_SCORE = 10;
-    public static final int MAX_ROLLS = 2;
+    private static final int MAX_SCORE = 10;
+    private static final int MAX_ROLLS = 2;
 
     private List<Integer> rolls = new ArrayList<>();
 
@@ -15,11 +15,9 @@ public class Frame {
     }
 
     public int getScore() {
-        int score = 0;
-        for (int i = 0; i < rolls.size(); i++) {
-            score += rolls.get(i);
-        }
-        return score;
+        return rolls.stream()
+                .mapToInt(each -> each)
+                .sum();
     }
 
     public boolean isComplete() {
@@ -27,7 +25,7 @@ public class Frame {
     }
 
     public boolean isStrike() {
-        return rolls.size() == 1 && rolls.get(0) == MAX_SCORE;
+        return rolls.size() == 1 && getScoreOfFirstRoll() == MAX_SCORE;
     }
 
     int getScoreOfFirstRoll() {

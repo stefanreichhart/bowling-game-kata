@@ -49,7 +49,7 @@ public class GameTest {
     @Test
     public void allRolls_allSpares() {
         rollMultipleTimes(20, 5);
-        game.roll(5);
+        game.roll(5); // bonus for the last spare
         assertEquals(150, game.score()); // 150 = 10 * (5 + 5 + 5)
     }
 

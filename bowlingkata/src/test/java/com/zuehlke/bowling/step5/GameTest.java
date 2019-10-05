@@ -41,7 +41,8 @@ public class GameTest {
     @Test
     public void allRolls_allStrikes() {
         rollMultipleTimes(10, 10);
-        rollMultipleTimes(2, 10); // bonus for last frame
+        game.roll(10); // bonus for last frame
+        game.roll(10); //
         assertEquals(300, game.score());  // 300 = 10 * (10 + 10 + 10)
     }
 

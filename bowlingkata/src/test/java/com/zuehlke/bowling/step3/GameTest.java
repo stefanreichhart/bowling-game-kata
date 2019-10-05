@@ -11,7 +11,7 @@ public class GameTest {
     private Game game;
 
     @BeforeEach
-    public void createGame() {
+    public void createNewGame() {
         game = assertDoesNotThrow(() -> new Game());
     }
 
