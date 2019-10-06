@@ -23,7 +23,7 @@ public class GameTest {
     @Test
     public void allRolls_0PinEach() {
         repeat(10, () -> frame(0, 0));
-        assertEquals(0, game.score()); // 0 = 20 * (0 + 0)
+        assertEquals(0, game.score()); // 0 = 10 * (0 + 0)
     }
 
     @Test

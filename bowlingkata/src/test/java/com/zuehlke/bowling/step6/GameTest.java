@@ -23,7 +23,7 @@ public class GameTest {
     @Test
     public void allRolls_0PinEach() {
         rollMultipleTimes(20, 0);
-        assertEquals(0, game.score()); // 0 = 20 * (0 + 0)
+        assertEquals(0, game.score()); // 0 = 10 * (0 + 0)
     }
 
     @Test
@@ -43,7 +43,7 @@ public class GameTest {
         rollMultipleTimes(10, 10);
         game.roll(10); // bonus for last frame
         game.roll(10); //
-        assertEquals(300, game.score());  // 300 = 10 * (10 + 10 + 10)
+        assertEquals(300, game.score()); // 300 = 10 * (10 + 10 + 10)
     }
 
     @Test

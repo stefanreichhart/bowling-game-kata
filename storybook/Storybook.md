@@ -27,3 +27,8 @@
 | Step 6 | Tests sind etwas dumm und unrealistisch; zudem noch roll() basiert <br> - Reale Testcases programmieren <br> - Erwähnen: Testcases sind Dokumentation + Spezifikation ! <br> - Testcases ans Frame anpassen |
 | Step 7 | MENTI: sind wir fertig ? <br> - Alternative refactorings diskutieren <br> - Pragmatismus in der IT ansprechen <-> keine Vergoldungen|
 | Step 8 | Abschluss: Musterlösung von LinkedList-model zeigen |
+
+## Links
+- https://kata-log.rocks/bowling-game-kata
+- http://codingdojo.org/kata/Bowling/
+- https://www.blueskyonmars.com/2004/03/19/top-ten-reasons-that-tdd-sucks/
