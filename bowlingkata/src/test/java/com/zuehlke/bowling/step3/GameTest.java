@@ -6,34 +6,34 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class GameTest {
+class GameTest {
 
     private Game game;
 
     @BeforeEach
-    public void createNewGame() {
+    void createNewGame() {
         game = assertDoesNotThrow(() -> new Game());
     }
 
     @Test
-    public void scoreForNewGame() {
+    void scoreForNewGame() {
         assertEquals(0, game.score()); // 0
     }
 
     @Test
-    public void allRolls_0PinEach() {
+    void allRolls_0PinEach() {
         rollMultipleTimes(20, 0);
         assertEquals(0, game.score()); // 0 = 20 * (0 + 0)
     }
 
     @Test
-    public void allRolls_1PinEach() {
+    void allRolls_1PinEach() {
         rollMultipleTimes(20, 1);
         assertEquals(20, game.score()); // 20 = 10 * (1 + 1)
     }
 
     @Test
-    public void allRolls_2PinEach() {
+    void allRolls_2PinEach() {
         rollMultipleTimes(20, 2);
         assertEquals(40, game.score()); // 40 = 10 * (2 + 2)
     }

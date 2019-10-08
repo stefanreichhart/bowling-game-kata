@@ -5,21 +5,21 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class GameTest {
+class GameTest {
 
     @Test
-    public void createNewGame() {
+    void createNewGame() {
         assertDoesNotThrow(() -> new Game());
     }
 
     @Test
-    public void scoreForNewGame() {
+    void scoreForNewGame() {
         Game game = new Game();
         assertEquals(0, game.score());
     }
 
     @Test
-    public void allRolls_0PinEach() {
+    void allRolls_0PinEach() {
         Game game = new Game();
         for (int i = 0; i < 20; i++) {
             game.roll(0);
@@ -28,7 +28,7 @@ public class GameTest {
     }
 
     @Test
-    public void allRolls_1PinEach() {
+    void allRolls_1PinEach() {
         Game game = new Game();
         for (int i = 0; i < 20; i++) {
             game.roll(1);
@@ -37,7 +37,7 @@ public class GameTest {
     }
 
     @Test
-    public void allRolls_2PinEach() {
+    void allRolls_2PinEach() {
         Game game = new Game();
         for (int i = 0; i < 20; i++) {
             game.roll(2);
