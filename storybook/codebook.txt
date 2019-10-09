@@ -1,0 +1,319 @@
+-----------------------------------------------------------
+step 0 -> 1: implement roll() and score()
+-----------------------------------------------------------
+
+    @Test
+    void createNewGame() {
+        assertDoesNotThrow(() -> new Game());
+    }
+
+    @Test
+    void scoreForNewGame() {
+        Game game = new Game();
+        assertEquals(0, game.score());
+    }
+
+--- 
+
+    public int score() {
+        return 0;
+    }
+
+-----------------------------------------------------------
+step 1 -> 2: implement simple rolls (no strike, spare)
+-----------------------------------------------------------
+
+	@Test
+    void allRolls_0PinEach() {
+        Game game = new Game();
+        for (int i = 0; i < 20; i++) {
+            game.roll(0);
+        }
+        assertEquals(0, game.score()); // 0 = 20 * (0 + 0)
+    }
+
+    @Test
+    void allRolls_1PinEach() {
+        Game game = new Game();
+        for (int i = 0; i < 20; i++) {
+            game.roll(1);
+        }
+        assertEquals(20, game.score()); // 20 = 10 * (1 + 1)
+    }
+
+    @Test
+    void allRolls_2PinEach() {
+        Game game = new Game();
+        for (int i = 0; i < 20; i++) {
+            game.roll(2);
+        }
+        assertEquals(40, game.score()); // 40 = 10 * (2 + 2)
+    }
+
+---
+
+	private int score;
+
+    public int score() {
+        return score;
+    }
+
+    public void roll(int numberOfPins) {
+        score += numberOfPins;
+    }
+
+-----------------------------------------------------------
+step 2 -> 3: cleanup tests (for-loop => rollMultipleTimes)
+-----------------------------------------------------------
+
+	@Test
+    void allRolls_0PinEach() {
+        rollMultipleTimes(20, 0);
+        assertEquals(0, game.score()); // 0 = 20 * (0 + 0)
+    }
+
+    @Test
+    void allRolls_1PinEach() {
+        rollMultipleTimes(20, 1);
+        assertEquals(20, game.score()); // 20 = 10 * (1 + 1)
+    }
+
+    @Test
+    void allRolls_2PinEach() {
+        rollMultipleTimes(20, 2);
+        assertEquals(40, game.score()); // 40 = 10 * (2 + 2)
+    }
+
+    private void rollMultipleTimes(int rolls, int numberOfPins) {
+        for (int i = 0; i < rolls; i++) {
+            game.roll(numberOfPins);
+        }
+    }
+
+-----------------------------------------------------------
+step 3 -> 4: fix responsibility problem of roll() and score()
+-----------------------------------------------------------
+
+	private final List<Integer> rolls = new ArrayList<>();
+
+    public int score() {
+        return rolls.stream()
+                .mapToInt(each -> each)
+                .sum();
+    }
+
+    public void roll(int numberOfPins) {
+        rolls.add(numberOfPins);
+    }
+
+-----------------------------------------------------------
+step 4 -> 5: implement strike, problem or "frame", discuss solution(s)
+-----------------------------------------------------------
+
+	@Test
+    void allRolls_allStrikes() {
+        rollMultipleTimes(10, 10);
+        game.roll(10); // bonus for last frame
+        game.roll(10); //
+        assertEquals(300, game.score());  // 300 = 10 * (10 + 10 + 10)
+    }
+
+ ---
+
+	private static final int MAX_FRAMES = 10;
+
+    private final List<Frame> frames;
+    private Frame currentFrame;
+
+    public Game() {
+        frames = new ArrayList<>();
+        currentFrame = new Frame();
+        frames.add(currentFrame);
+    }
+
+    public int score() {
+        int score = 0;
+        for (int i = 0; i < Math.min(frames.size(), MAX_FRAMES); i++) {
+            final Frame frame = frames.get(i);
+            score += frame.getScore();
+            if (frame.isStrike())  {
+                score += getScoreForStrikeBonus(i);
+            }
+        }
+        return score;
+    }
+
+    private int getScoreForStrikeBonus(int index) {
+        final Frame nextFrame = frames.get(index + 1);
+        int score = nextFrame.getScore();
+        if (nextFrame.isStrike()) {
+            score += frames.get(index + 2).getScoreOfFirstRoll();
+        }
+        return score;
+    }
+
+    public void roll(int numberOfPins) {
+        currentFrame.roll(numberOfPins);
+        if (currentFrame.isComplete()) {
+            currentFrame = new Frame();
+            frames.add(currentFrame);
+        }
+    }
+
+ ---
+
+    private static final int MAX_SCORE = 10;
+    private static final int MAX_ROLLS = 2;
+
+    private final List<Integer> rolls = new ArrayList<>();
+
+    public void roll(int numberOfPins) {
+        rolls.add(numberOfPins);
+    }
+
+    public int getScore() {
+        return rolls.stream()
+                .mapToInt(each -> each)
+                .sum();
+    }
+
+    boolean isComplete() {
+        return isStrike() || rolls.size() == MAX_ROLLS;
+    }
+
+    boolean isStrike() {
+        return rolls.size() == 1 && getScoreOfFirstRoll() == MAX_SCORE;
+    }
+
+    int getScoreOfFirstRoll() {
+        return rolls.get(0);
+    }
+
+-----------------------------------------------------------
+step 5 -> 6: implement spare
+-----------------------------------------------------------
+
+    @Test
+    void allRolls_allSpares() {
+        rollMultipleTimes(20, 5);
+        game.roll(5); // bonus for the last spare
+        assertEquals(150, game.score()); // 150 = 10 * (5 + 5 + 5)
+    }
+
+ ---
+
+    if (frame.isSpare()) {
+        score += getScoreOfSpareBonus(i);
+    }
+
+   
+    private int getScoreOfSpareBonus(int index) {
+        return frames.get(index + 1).getScoreOfFirstRoll();
+    }
+
+ ---
+
+     boolean isComplete() {
+        return isStrike() || isSpare() || rolls.size() == MAX_ROLLS;
+    }
+
+    boolean isSpare() {
+        return rolls.size() == MAX_ROLLS && getScore() == MAX_SCORE;
+    }
+
+-----------------------------------------------------------
+step 6 -> 7: enhance tests
+-----------------------------------------------------------
+
+    private Game game;
+
+    @BeforeEach
+    void createGame() {
+        game = assertDoesNotThrow(() -> new Game());
+    }
+
+    @Test
+    void scoreForNewGame() {
+        assertEquals(0, game.score()); // 0
+    }
+
+    @Test
+    void allRolls_0PinEach() {
+        repeat(10, () -> frame(0, 0));
+        assertEquals(0, game.score()); // 0 = 10 * (0 + 0)
+    }
+
+    @Test
+    void allRolls_1PinEach() {
+        repeat(10, () -> frame(1, 1));
+        assertEquals(20, game.score()); // 20 = 10 * (1 + 1)
+    }
+
+    @Test
+    void allRolls_2PinEach() {
+        repeat(10, () -> frame(2, 2));
+        assertEquals(40, game.score()); // 40 = 10 * (2 + 2)
+    }
+
+    @Test
+    void allRolls_allStrikes() {
+        repeat(10, () -> strike());
+        strike(); // bonus for last frame
+        strike(); //
+        assertEquals(300, game.score()); // 300 = 10 * (10 + 10 + 10)
+    }
+
+    @Test
+    void allRolls_allSpares() {
+        repeat(10, () -> spare(5));
+        game.roll(5); // bonus for the last spare
+        assertEquals(150, game.score()); // 150 = 10 * (5 + 5 + 5)
+    }
+
+    @Test
+    void mixedRolls() {
+        strike();
+        repeat(5, () -> frame(1, 1));
+        frame(4, 6);
+        repeat(3, () -> frame(2, 2));
+        assertEquals(46, game.score()); // (10 + 2) + (10 * 1) + (4 + 6 + 2) + (6 * 2)
+    }
+
+    @Test
+    void mixedRolls_realGame() {
+        strike(); // frame 1
+        frame(4, 4);
+        frame(7, 1);
+        frame(2, 7);
+        spare(3); // frame 5
+        strike();
+        strike();
+        strike();
+        frame(1, 0);
+        strike(); // frame 10, finish
+        frame(9, 1);
+        assertEquals(146, game.score()); // (10 + 4 + 4) + (4 + 4) + (7 + 1) + (2 + 7) + (3 + 7 + 10) + (10 + 10 + 10) + (10 + 10 + 1) + (10 + 1 + 0) + (1 + 0) + (10 + 9 + 1)
+    }
+
+    private void repeat(int times, Runnable runnable) {
+        for (int i = 0; i < times; i++) {
+            runnable.run();
+        }
+    }
+
+    private void strike() {
+        game.roll(10);
+    }
+
+    private void spare(int roll1) {
+        frame(roll1, 10 - roll1);
+    }
+
+    private void frame(int roll1, int roll2) {
+        game.roll(roll1);
+        game.roll(roll2);
+    }
+
+-----------------------------------------------------------
+step 7 -> 8: mögliche musterlösung
+-----------------------------------------------------------
