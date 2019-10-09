@@ -78,6 +78,16 @@ class GameTest {
         assertEquals(146, game.score()); // (10 + 4 + 4) + (4 + 4) + (7 + 1) + (2 + 7) + (3 + 7 + 10) + (10 + 10 + 10) + (10 + 10 + 1) + (10 + 1 + 0) + (1 + 0) + (10 + 9 + 1)
     }
 
+    @Test
+    void mixedRolls_mentiGame() {
+        frame(0, 1);
+        strike();
+        spare(9);
+        frame(3, 3);
+        repeat(6, () -> frame(0, 0));
+        assertEquals(40, game.score()); // (1) + (10 + 9 + 1) + (3 + 3) + 6*(0 + 0)
+    }
+
     private void repeat(int times, Runnable runnable) {
         for (int i = 0; i < times; i++) {
             runnable.run();
