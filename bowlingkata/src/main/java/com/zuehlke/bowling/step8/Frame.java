@@ -3,23 +3,23 @@ package com.zuehlke.bowling.step8;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Frame {
+class Frame {
 
     private static final int MAX_SCORE = 10;
     private static final int MAX_ROLLS = 2;
 
     private Frame nextFrame;
-    private List<Integer> rolls = new ArrayList<>();
+    private final List<Integer> rolls = new ArrayList<>();
 
-    public void setNextFrame(Frame nextFrame) {
+    void setNextFrame(Frame nextFrame) {
         this.nextFrame = nextFrame;
     }
 
-    public void roll(int numberOfPins) {
+    void roll(int numberOfPins) {
         rolls.add(numberOfPins);
     }
 
-    public int getScore() {
+    int getScore() {
         int score = getScoreOfRolls();
         if (isStrike())  {
             score += getScoreOfStrikeBonus();
@@ -30,7 +30,7 @@ public class Frame {
         return score;
     }
 
-    public boolean isComplete() {
+    boolean isComplete() {
         return isStrike() || isSpare() || rolls.size() == MAX_ROLLS;
     }
 

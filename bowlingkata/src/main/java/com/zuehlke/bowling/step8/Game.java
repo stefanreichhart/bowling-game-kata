@@ -7,13 +7,9 @@ public class Game {
 
     private static final int MAX_FRAMES = 10;
 
-    private List<Frame> frames;
+    private final List<Frame> frames;
 
     public Game() {
-        initGame();
-    }
-
-    private void initGame() {
         frames = new ArrayList<>();
         frames.add(new Frame());
     }

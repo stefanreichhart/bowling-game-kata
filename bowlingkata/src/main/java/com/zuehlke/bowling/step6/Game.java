@@ -7,7 +7,7 @@ public class Game {
 
     private static final int MAX_FRAMES = 10;
 
-    private List<Frame> frames;
+    private final List<Frame> frames;
     private Frame currentFrame;
 
     public Game() {

@@ -3,12 +3,12 @@ package com.zuehlke.bowling.step5;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Frame {
+class Frame {
 
     private static final int MAX_SCORE = 10;
     private static final int MAX_ROLLS = 2;
 
-    private List<Integer> rolls = new ArrayList<>();
+    private final List<Integer> rolls = new ArrayList<>();
 
     public void roll(int numberOfPins) {
         rolls.add(numberOfPins);
@@ -20,11 +20,11 @@ public class Frame {
                 .sum();
     }
 
-    public boolean isComplete() {
+    boolean isComplete() {
         return isStrike() || rolls.size() == MAX_ROLLS;
     }
 
-    public boolean isStrike() {
+    boolean isStrike() {
         return rolls.size() == 1 && getScoreOfFirstRoll() == MAX_SCORE;
     }
 

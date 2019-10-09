@@ -2,11 +2,10 @@ package com.zuehlke.bowling.step5_prims;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class Game {
 
-    private List<Integer> rolls = new ArrayList<>();
+    private final List<Integer> rolls = new ArrayList<>();
 
     public int score() {
         int score = 0;
@@ -27,7 +26,6 @@ public class Game {
     }
 
     public void roll(int numberOfPins) {
-        Objects.requireNonNull(numberOfPins);
         rolls.add(numberOfPins);
     }
 
